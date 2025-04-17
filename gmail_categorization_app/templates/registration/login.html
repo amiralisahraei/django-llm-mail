@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <h2>Welcome Back!</h2>
+  
+  <!-- Single error message container -->
+  <div class="message-container">
+    {% if messages %}
+      {% for message in messages|slice:":1" %}
+        <div class="alert alert-{{ message.tags|default:'error' }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <form method="POST" action="{% url 'login' %}" class="login-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_username">Username</label>
+      <input type="text" 
+             name="username" 
+             id="id_username" 
+             value="{{ username|default:'' }}"
+             required 
+             autofocus>
+    </div>
+
+    <div class="form-group">
+      <label for="id_password">Password</label>
+      <input type="password" 
+             name="password" 
+             id="id_password" 
+             required>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">
+      <span class="btn-text">Sign In</span>
+    </button>
+  </form>
+
+  <div class="form-footer">
+    <p class="signup-text">Don't have an account?</p>
+    <a href="{% url 'signup' %}" class="btn btn-outline btn-block">Create Account</a>
+    <a href="{% url 'main' %}" class="home-link">Back to Home</a>
+  </div>
+</div>
+{% endblock %}

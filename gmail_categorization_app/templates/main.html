@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Email Categorization with LLM{% endblock %}
+
+{% block content %}
+<div class="login-container" style="max-width: 600px; padding: 3rem;">
+    <h1 style="margin-bottom:1.5rem; color: #34495e;">Email Categorization with LLM</h1>
+    <p style="margin-bottom:2rem; font-size: 1.1rem;">
+        Effortlessly manage and categorize your emails with cutting-edge Language Learning Models. Streamline your inbox and boost
+        productivity with our AI-powered solution.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="{% url 'signup' %}" class="btn" style="text-decoration: none; background-color: #4CAF50; color: white; padding: 0.75rem 1.5rem; border-radius: 4px;">
+            Sign Up
+        </a>
+        <a href="{% url 'login' %}" class="btn" style="text-decoration: none; background-color: #34495e; color: white; padding: 0.75rem 1.5rem; border-radius: 4px;">
+            Login
+        </a>
+    </div>
+    <div style="margin-top: 2rem;">
+        <p style="font-size: 0.9rem; color: #7f8c8d;">
+            Discover how our intelligent system simplifies email organization and keeps your inbox under control.
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="email-container">
+    <div class="profile-link" style="text-align:right; margin-bottom: 1rem;">
+      <a href="{% url 'user_profile' %}" class="btn">My Profile</a>
+    </div>
+    <h2>Email Messages</h2>
+    <table class="email-table">
+      <thead>
+        <tr>
+          <th>User Email</th>
+          <th>Subject</th>
+          <th>Body</th>
+          <th>Sentiment</th>
+          <th>Received At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for email in emails %}
+        <tr>
+          <td>{{ email.user_email }}</td>
+          <td>{{ email.subject }}</td>
+          <td>
+            <div class="message-content">
+              <span class="short-text">{{ email.body|truncatechars:100 }}</span>
+              <span class="full-text" style="display:none;">{{ email.body }}</span>
+              {% if email.body|length > 100 %}
+              <a href="#" class="toggle-text" onclick="toggleText(event, this)">Show More</a>
+              {% endif %}
+            </div>
+          </td>
+          <td>{{ email.sentiment }}</td>
+          <td>{{ email.received_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="empty-table">No emails found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    function toggleText(event, link) {
+      event.preventDefault();
+      var container = link.closest('.message-content');
+      var shortText = container.querySelector('.short-text');
+      var fullText = container.querySelector('.full-text');
+      if (fullText.style.display === 'none') {
+        fullText.style.display = 'inline';
+        shortText.style.display = 'none';
+        link.textContent = 'Show Less';
+      } else {
+        fullText.style.display = 'none';
+        shortText.style.display = 'inline';
+        link.textContent = 'Show More';
+      }
+    }
+  </script>
+{% endblock %}

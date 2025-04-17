@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard | {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <!-- Top Navigation Bar -->
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <h1>Email Dashboard</h1>
+    </div>
+    <div class="nav-actions">
+      {% if user.is_authenticated %}
+        <span class="user-welcome">Welcome, {{ user.username }}</span>
+        <form method="POST" action="{% url 'logout' %}" class="logout-form">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline">Logout</button>
+        </form>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="profile-quick-view">
+        <div class="profile-info">
+          <h3>{{ user.get_full_name }}</h3>
+          <p class="email">{{ user.email }}</p>
+        </div>
+      </div>
+      <div class="sidebar-actions">
+        <a href="{% url 'gmail_categorization' %}" class="btn btn-primary btn-block">
+          <i class="fas fa-sync"></i> Sync Gmail
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      {% if emails and emails|length > 0 %}
+        <div class="content-header">
+          <h2>Email Messages</h2>
+          <div class="header-actions">
+            <select class="select-styled" id="emailFilter" onchange="filterEmails(this.value)">
+              <option value="all">All Emails</option>
+              <option value="positive">Positive</option>
+              <option value="negative">Negative</option>
+              <option value="neutral">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="email-container">
+          <table class="email-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Content</th>
+                <th>Sentiment</th>
+                <th>Received</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for email in emails %}
+              <tr class="email-row" data-sentiment="{{ email.sentiment|lower }}">
+                <td class="subject-cell">{{ email.subject }}</td>
+                <td class="content-cell">
+                  <div class="message-content">
+                    <span class="short-text">{{ email.body|truncatechars:100 }}</span>
+                    <span class="full-text" style="display:none;">{{ email.body }}</span>
+                    {% if email.body|length > 100 %}
+                      <button class="toggle-text" onclick="toggleText(event, this)">Show More</button>
+                    {% endif %}
+                  </div>
+                </td>
+                <td class="sentiment-cell">
+                  <span class="sentiment-badge sentiment-{{ email.sentiment|lower }}">
+                    {{ email.sentiment }}
+                  </span>
+                </td>
+                <td class="date-cell">{{ email.received_at|date:"M d, Y h:i A" }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <div class="empty-state-content">
+            <h3>No Emails Found</h3>
+            <p>Click "Sync Gmail" to import your emails.</p>
+            <a href="{% url 'gmail_categorization' %}" class="btn btn-primary">
+              Sync Now
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </main>
+  </div>
+</div>
+
+<script>
+  function toggleText(event, button) {
+    event.preventDefault();
+    const container = button.closest('.message-content');
+    const shortText = container.querySelector('.short-text');
+    const fullText = container.querySelector('.full-text');
+    
+    if (fullText.style.display === 'none') {
+      fullText.style.display = 'block';
+      shortText.style.display = 'none';
+      button.textContent = 'Show Less';
+    } else {
+      fullText.style.display = 'none';
+      shortText.style.display = 'block';
+      button.textContent = 'Show More';
+    }
+  }
+
+  function filterEmails(sentiment) {
+    const rows = document.querySelectorAll('.email-row');
+    rows.forEach(row => {
+      if (sentiment === 'all' || row.dataset.sentiment === sentiment) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+{% endblock %}
