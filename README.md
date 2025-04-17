@@ -63,7 +63,7 @@ A Django-based web application that fetches, analyzes, and intelligently categor
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/gmail_categorization.git
+git clone git@github.com:amiralisahraei/django-llm-mail.git
 cd gmail_categorization
 ```
 
