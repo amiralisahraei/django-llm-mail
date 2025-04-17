@@ -157,40 +157,7 @@ MODEL_NAME=deepseek-r1-distill-llama-70b
 
 ---
 
-## 🔐 Security Best Practices
-
-- OAuth2 token encryption  
-- CSRF protection  
-- Strong password validation  
-- Authentication rate limiting  
-
----
-
-## 🤝 Contributing
-
-- Fork the repo  
-- Create a new feature branch  
-- Commit your changes  
-- Open a Pull Request  
-
----
-
 ## 📜 License
 
 Licensed under the MIT License. See `LICENSE` file.
 
----
-
-## 👨‍💻 Author
-
-**Your Name**  
-📧 your.email@example.com
-
----
-
-## 🙏 Acknowledgments
-
-- HuggingFace Transformers  
-- Gmail API Documentation  
-- Django Documentation  
-- Open-source contributors
