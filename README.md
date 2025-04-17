@@ -1,4 +1,4 @@
-# Gmail Categorization App (Powered by LLMs)
+# Django-based Gmail Categorization App Powered by LLMs
 
 A Django-based web application that fetches, analyzes, and intelligently categorizes Gmail messages using **Large Language Models (LLMs)** for deeper contextual sentiment understanding. This AI-driven app offers a modern interface to explore and filter your inbox based on nuanced sentiment categories.
 
