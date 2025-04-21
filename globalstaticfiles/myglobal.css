@@ -421,3 +421,112 @@ body {
   margin-top: 0.5rem;
   display: block;
 }
+
+.upload-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.upload-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  background: #f8f9fa;
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-header h2 {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.credentials-form {
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.file-upload-label {
+  display: block;
+  padding: 1rem;
+  background: #e9ecef;
+  border: 2px dashed #6c757d;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-upload-label:hover {
+  background: #dee2e6;
+  border-color: #0d6efd;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-name {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: #495057;
+}
+
+.btn-large {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.help-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.setup-steps {
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.setup-steps li {
+  margin-bottom: 1rem;
+  color: #495057;
+}
+
+.security-note {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #e8f5e9;
+  border-radius: 5px;
+  margin-top: 2rem;
+}
+
+.security-note i {
+  color: #2e7d32;
+  font-size: 1.5rem;
+}
+
+.security-note p {
+  margin: 0;
+  color: #1b5e20;
+}

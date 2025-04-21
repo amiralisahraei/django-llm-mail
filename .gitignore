@@ -94,3 +94,5 @@ yarn-error.log*
 
 # Unit test / coverage reports
 .pytest_cache/
+
+migrations/

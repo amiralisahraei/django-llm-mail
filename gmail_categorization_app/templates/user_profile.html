@@ -32,9 +32,17 @@
         </div>
       </div>
       <div class="sidebar-actions">
-        <a href="{% url 'gmail_categorization' %}" class="btn btn-primary btn-block">
-          <i class="fas fa-sync"></i> Sync Gmail
-        </a>
+        <div class="action-buttons">
+          {% if not user_has_gmail_auth %}
+          <a href="{% url 'upload_credentials' %}" class="btn btn-primary btn-block">
+              Connect Gmail Account
+          </a>
+          {% else %}
+          <a href="{% url 'gmail_categorization' %}" class="btn btn-primary btn-block">
+              Sync Emails
+          </a>
+          {% endif %}
+      </div>
       </div>
     </aside>
 
@@ -48,7 +56,7 @@
               <option value="all">All Emails</option>
               <option value="positive">Positive</option>
               <option value="negative">Negative</option>
-              <option value="neutral">Other</option>
+              <option value="other">Other</option>
             </select>
           </div>
         </div>
@@ -122,13 +130,15 @@
 
   function filterEmails(sentiment) {
     const rows = document.querySelectorAll('.email-row');
+    const normalizedSentiment = sentiment.toLowerCase();
+
     rows.forEach(row => {
-      if (sentiment === 'all' || row.dataset.sentiment === sentiment) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
-      }
+      const rowSentiment = row.dataset.sentiment.toLowerCase();
+      row.style.display = (normalizedSentiment === 'all' || rowSentiment === normalizedSentiment) 
+        ? '' 
+        : 'none';
     });
   }
+
 </script>
 {% endblock %}
