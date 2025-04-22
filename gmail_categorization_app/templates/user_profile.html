@@ -5,6 +5,17 @@
 
 {% block content %}
 <div class="dashboard-container">
+  <!-- Single error message container -->
+  <div class="message-container">
+    {% if messages %}
+      {% for message in messages|slice:":1" %}
+        <div class="alert alert-{{ message.tags|default:'error' }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
   <!-- Top Navigation Bar -->
   <nav class="top-nav">
     <div class="nav-brand">
@@ -20,7 +31,6 @@
       {% endif %}
     </div>
   </nav>
-
   <!-- Main Content -->
   <div class="content-wrapper">
     <!-- Sidebar -->
@@ -34,11 +44,11 @@
       <div class="sidebar-actions">
         <div class="action-buttons">
           {% if not user_has_gmail_auth %}
-          <a href="{% url 'upload_credentials' %}" class="btn btn-primary btn-block">
+          <a href="{% url 'upload_credentials' %}" class="btn btn-primary btn-block" >
               Connect Gmail Account
           </a>
           {% else %}
-          <a href="{% url 'gmail_categorization' %}" class="btn btn-primary btn-block">
+          <a href="{% url 'gmail_categorization' %}" class="btn btn-primary btn-block" >
               Sync Emails
           </a>
           {% endif %}
@@ -138,6 +148,28 @@
         ? '' 
         : 'none';
     });
+  }
+
+  async function handleGmailSync(event) {
+    event.preventDefault();
+    try {
+        const response = await fetch("{% url 'gmail_categorization' %}");
+        const text = await response.text();
+        
+        // Check if there's an error message in the response
+        if (response.url.includes('error')) {
+            const errorMatch = text.match(/<div class="alert alert-error">(.*?)<\/div>/);
+            if (errorMatch) {
+                showError(errorMatch[1].trim());
+                return;
+            }
+        }
+        
+        // If no error, redirect to the response URL
+        window.location.href = response.url;
+    } catch (error) {
+        showError('An error occurred while syncing emails. Please try again.');
+    }
   }
 
 </script>

@@ -85,7 +85,6 @@ def gmail_categorization(request):
     """Render the Gmail categorization page and redirect to dashboard."""
     try:
         if not UserGoogleAuth.objects.filter(user=request.user).exists():
-            messages.error(request, 'Please authenticate with Gmail first')
             return redirect('upload_credentials')
 
         categorize_main(request.user)
@@ -103,11 +102,11 @@ def upload_credentials(request):
         credentials_file = request.FILES.get('credentials')
         if not credentials_file:
             messages.error(request, 'Please select a credentials file')
-            return redirect('user_profile')
+            return render(request, 'upload_credentials.html')
 
         if not credentials_file.name.endswith('.json'):
             messages.error(request, 'Please upload a valid credentials.json file')
-            return redirect('user_profile')
+            return render(request, 'upload_credentials.html')
 
         try:
             with tempfile.NamedTemporaryFile(delete=False) as temp_file:
@@ -118,7 +117,7 @@ def upload_credentials(request):
             return redirect('gmail_auth')
         except Exception as e:
             messages.error(request, f'Error processing credentials file: {str(e)}')
-            return redirect('user_profile')
+            return render(request, 'user_profile.html')
 
     return render(request, 'upload_credentials.html')
 
