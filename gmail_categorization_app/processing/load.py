@@ -1,11 +1,4 @@
-from datetime import date
-import sys
-import os
-import pandas as pd
-
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.insert(0, PROJECT_ROOT)
-
+from django.utils import timezone
 from gmail_categorization_app.processing.sentiment_analysis import model_response
 from gmail_categorization_app.models import EmailMessage  
 
@@ -25,9 +18,9 @@ def load_data_into_csv(email_data, user_email):
             body=body
         ).exists()
         
+        today_date = timezone.now()
         if not exists:
             sentiment_result = model_response(body)
-            today_date = date.today()
 
             EmailMessage.objects.create(
                 user_email=user_email,
@@ -36,4 +29,11 @@ def load_data_into_csv(email_data, user_email):
                 sentiment=sentiment_result,
                 received_at=today_date
             )
-
+        else:
+            EmailMessage.objects.filter(
+                user_email=user_email,
+                subject=subject,
+                body=body
+            ).update(
+                received_at=today_date,
+            )
