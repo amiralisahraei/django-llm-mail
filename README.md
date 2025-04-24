@@ -45,6 +45,10 @@ A Django-based web application that fetches, analyzes, and intelligently categor
 
 ---
 
+![Dashboard Screenshot](images/dashboard_screenshot.png)
+
+---
+
 ## 🧠 Technologies
 
 - **Backend**
