@@ -89,10 +89,20 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configure Environment Variables
+
 ```bash
 cp .env.example .env
 # Edit .env with your Gmail API credentials and Django secret key
 ```
+
+⚠️ **Important for Local Development:**  
+If you're running the app locally (without HTTPS), you must allow OAuth2 to work over insecure HTTP by setting the following environment variable **before** starting the server:
+
+ ```bash
+ export OAUTHLIB_INSECURE_TRANSPORT=1
+ ```
+
+ This should **only** be used in development environments. **Never** use it in production.
 
 ### 5. Apply Migrations
 ```bash
