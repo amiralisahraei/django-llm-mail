@@ -31,6 +31,7 @@ httpx==0.28.1
 httpx-sse==0.4.0
 huggingface-hub==0.29.3
 idna==3.10
+iniconfig==2.1.0
 Jinja2==3.1.6
 joblib==1.4.2
 jsonpatch==1.33
@@ -67,6 +68,7 @@ orjson==3.10.15
 packaging==24.2
 pandas==2.2.3
 pillow==11.1.0
+pluggy==1.5.0
 propcache==0.3.0
 proto-plus==1.26.1
 protobuf==5.29.3
@@ -77,6 +79,8 @@ pydantic==2.10.6
 pydantic-settings==2.8.1
 pydantic_core==2.27.2
 pyparsing==3.2.1
+pytest==8.3.5
+pytest-django==4.11.1
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-dotenv==1.0.1
