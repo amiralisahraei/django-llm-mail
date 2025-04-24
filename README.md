@@ -1,13 +1,15 @@
-# Django-based Gmail Categorization App Powered by LLMs
+# Gmail Categorization App Powered by LLMs
 
 A Django-based web application that fetches, analyzes, and intelligently categorizes Gmail messages using **Large Language Models (LLMs)** for deeper contextual sentiment understanding. This AI-driven app offers a modern interface to explore and filter your inbox based on nuanced sentiment categories.
+
+---
 
 ## 🔍 Key Highlights
 
 - **LLM-Enhanced Email Categorization**
   - Uses transformer-based models for context-aware sentiment analysis
   - Goes beyond basic keyword analysis to detect subtle sentiment and intent
-  - Custom or fine-tuned LLM models supported (e.g., DistilBERT, RoBERTa)
+  - Custom or fine-tuned LLM models supported (e.g., DistilBERT, RoBERTa, Groq)
 
 - **Seamless Django Integration**
   - Modular architecture for LLM inference pipelines
@@ -19,6 +21,8 @@ A Django-based web application that fetches, analyzes, and intelligently categor
   - Smart email sync with real-time status
   - Interactive dashboard with sentiment filters and insights
 
+---
+
 ## ✨ Features
 
 - **Authentication & Security**
@@ -29,7 +33,7 @@ A Django-based web application that fetches, analyzes, and intelligently categor
 - **Intelligent Email Processing**
   - Gmail API integration
   - LLM-based sentiment and emotion classification
-  - Categorization: Positive, Negative, Neutral
+  - Categorization: Positive, Negative, Other
   - Scalable pipeline design with pagination (20 emails/page)
   - Filter & explore by sentiment
 
@@ -39,11 +43,13 @@ A Django-based web application that fetches, analyzes, and intelligently categor
   - Visual sentiment indicators
   - Error handling and feedback alerts
 
+---
+
 ## 🧠 Technologies
 
 - **Backend**
   - Python 3.8+
-  - Django 4.0+
+  - Django 5.2+
   - Gmail API
   - Google OAuth2
   - SQLite / PostgreSQL
@@ -52,10 +58,14 @@ A Django-based web application that fetches, analyzes, and intelligently categor
   - HuggingFace Transformers
   - PyTorch or TensorFlow (backend agnostic)
   - Pretrained and fine-tuned LLMs for sentiment analysis
+  - [Groq LLM API](https://groq.com/)
 
 - **Frontend**
   - HTML5/CSS3
   - JavaScript (vanilla or minimal frameworks)
+
+- **Testing**
+  - pytest & pytest-django
 
 ---
 
@@ -98,7 +108,7 @@ python manage.py runserver
 
 ## 🔧 Google API Setup
 
-- Create a project in the Google Cloud Console  
+- Create a project in the [Google Cloud Console](https://console.cloud.google.com)
 - Enable Gmail API  
 - Set up OAuth consent screen  
 - Create OAuth 2.0 credentials  
@@ -112,14 +122,21 @@ python manage.py runserver
 gmail_categorization/
 ├── gmail_categorization_app/
 │   ├── processing/
-│   │   ├── gmail_api.py              # Gmail fetching logic
 │   │   ├── load.py                   # Token & Gmail sync utils
 │   │   └── sentiment_analysis.py     # LLM integration
+│   ├── categorization/
+│   │   ├── app.py                    # Main categorization logic
+│   │   └── gmail/
+│   │       ├── authenticate_gmail.py # Gmail OAuth and API
+│   │       └── extract.py            # Email extraction logic
 │   ├── templates/
 │   ├── static/
 │   ├── models.py
 │   ├── views.py
 │   └── urls.py
+├── tests/
+│   ├── test_models.py
+│   └── test_views.py
 ├── manage.py
 └── README.md
 ```
@@ -136,13 +153,29 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = '/profile/'  
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/login/' 
 ```
 
 ### Required Environment Variables
 ```
 GROQ_API_KEY=your-api-key
 MODEL_NAME=deepseek-r1-distill-llama-70b
+```
+
+---
+
+## 🧪 Testing
+
+Run all tests with:
+
+```bash
+pytest
+```
+
+Or run a specific test file:
+
+```bash
+pytest tests/test_views.py
 ```
 
 ---
@@ -161,3 +194,11 @@ MODEL_NAME=deepseek-r1-distill-llama-70b
 
 Licensed under the MIT License. See `LICENSE` file.
 
+---
+
+## 🙏 Acknowledgements
+
+- [Django](https://www.djangoproject.com/)
+- [Google Gmail API](https://developers.google.com/gmail/api)
+- [Groq](https://groq.com/)
+- [HuggingFace Transformers](https://huggingface.co/transformers/)
