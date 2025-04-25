@@ -25,33 +25,27 @@ def main(request):
 
 def login_view(request):
     """Handle user login with specific error messages."""
-    username = ''
-    form = AuthenticationForm()
-
     if request.method == 'POST':
-        username = request.POST.get('username', '').strip()
-        password = request.POST.get('password', '').strip()
-
-        if not username or not password:
-            if not username and not password:
-                messages.error(request, 'Please enter both username and password.')
-            elif not username:
-                messages.error(request, 'Please enter your username.')
-            else:
-                messages.error(request, 'Please enter your password.')
-        else:
-            user = authenticate(request, username=username, password=password)
-            if user:
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
                 login(request, user)
                 return redirect('user_profile')
+        else:
+            # Check if the error is the default authentication error
+            if '__all__' in form.errors:
+                messages.error(request, "Invalid login credentials. Please check your username and password.")
             else:
-                user_exists = get_user_model().objects.filter(username=username).exists()
-                if user_exists:
-                    messages.error(request, 'Incorrect password. Please try again.')
-                else:
-                    messages.error(request, 'Username not found. Please check your username or sign up.')
-
-    return render(request, 'registration/login.html', {'form': form, 'username': username})
+                # Handle other form errors
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{error}")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
 
 
 def signup(request):
@@ -62,6 +56,10 @@ def signup(request):
             form.save()
             messages.success(request, 'Your account has been created successfully.')
             return redirect('login')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
